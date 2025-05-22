@@ -5,7 +5,7 @@ topics_data = [
     # Category: Algebra & Polynomials
     {
         "id": "index_laws", "title": "The Scroll of Index Laws", "category": "Algebra & Polynomials",
-        "explanation": """<p>Index laws (or exponent laws) are rules for simplifying expressions with powers. Here are the key laws:</p>
+        "explanation": r"""<p>Index laws (or exponent laws) are rules for simplifying expressions with powers. Here are the key laws:</p>
             <ul class="explanation-list">
                 <li>$a^m \times a^n = a^{m+n}$ (Product of powers)</li>
                 <li>$a^m \div a^n = a^{m-n}$ (Quotient of powers)</li>
@@ -19,7 +19,7 @@ topics_data = [
     },
     {
         "id": "factorising", "title": "The Art of Factorising", "category": "Algebra & Polynomials",
-        "explanation": """<p>Factorising is the reverse of expanding brackets. It involves writing an expression as a product of its factors. Some common forms include:</p>
+        "explanation": r"""<p>Factorising is the reverse of expanding brackets. It involves writing an expression as a product of its factors. Some common forms include:</p>
             <ul class="explanation-list">
                 <li>Common Factor: $ax + ay = a(x+y)$</li>
                 <li>Difference of Two Squares: $a^2 - b^2 = (a-b)(a+b)$</li>
@@ -29,7 +29,7 @@ topics_data = [
     },
     {
         "id": "factor_theorem", "title": "The Factor Theorem's Secret", "category": "Algebra & Polynomials",
-        "explanation": """<p>The Factor Theorem is a powerful tool for factorising polynomials.</p>
+        "explanation": r"""<p>The Factor Theorem is a powerful tool for factorising polynomials.</p>
             <ul class="explanation-list">
                 <li>It states that if $P(x)$ is a polynomial, then $(x-a)$ is a factor of $P(x)$ if and only if $P(a) = 0$.</li>
                 <li>This helps find linear factors of higher-degree polynomials.</li>
@@ -38,7 +38,7 @@ topics_data = [
     # Category: Proof
     {
         "id": "math_proof", "title": "The Essence of Mathematical Proof", "category": "Proof",
-        "explanation": """<p>A mathematical proof is a rigorous argument that demonstrates the truth of a mathematical statement.</p>
+        "explanation": r"""<p>A mathematical proof is a rigorous argument that demonstrates the truth of a mathematical statement.</p>
             <ul class="explanation-list">
                 <li>It relies on axioms, definitions, and previously proven theorems.</li>
                 <li>Common methods include: Proof by Deduction, Proof by Contradiction, Proof by Induction, and Disproof by Counterexample.</li>
@@ -47,7 +47,7 @@ topics_data = [
     # Category: Quadratics
     {
         "id": "solving_quadratics", "title": "Solving Quadratic Equations", "category": "Quadratics",
-        "explanation": """<p>Solving quadratic equations means finding values of $x$ for equations typically in the form $ax^2 + bx + c = 0$. Methods include:</p>
+        "explanation": r"""<p>Solving quadratic equations means finding values of $x$ for equations typically in the form $ax^2 + bx + c = 0$. Methods include:</p>
             <ul class="explanation-list">
                 <li>By factorisation (if possible).</li>
                 <li>Using the quadratic formula, which is $x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}$</li>
@@ -56,7 +56,7 @@ topics_data = [
     },
     {
         "id": "discriminant", "title": "The Revealing Discriminant", "category": "Quadratics",
-        "explanation": """<p>The discriminant of a quadratic equation $ax^2+bx+c=0$ is given by the expression $\Delta = b^2-4ac$. The value of the discriminant reveals the nature of the roots:</p>
+        "explanation": r"""<p>The discriminant of a quadratic equation $ax^2+bx+c=0$ is given by the expression $\Delta = b^2-4ac$. The value of the discriminant reveals the nature of the roots:</p>
             <ul class="explanation-list">
                 <li>If $\Delta > 0$, there are two distinct real roots.</li>
                 <li>If $\Delta = 0$, there is one repeated real root (or two equal real roots).</li>
@@ -66,7 +66,7 @@ topics_data = [
     # Category: Coordinate Geometry
     {
         "id": "equation_straight_line", "title": "The Path of Straight Lines", "category": "Coordinate Geometry",
-        "explanation": """<p>The equation of a straight line describes its path in the Cartesian plane. Common forms are:</p>
+        "explanation": r"""<p>The equation of a straight line describes its path in the Cartesian plane. Common forms are:</p>
             <ul class="explanation-list">
                 <li>The slope-intercept form is $y = mx + c$ (where $m$ is the gradient and $c$ is the y-intercept).</li>
                 <li>The general form is $ax + by + c = 0$.</li>
@@ -75,7 +75,7 @@ topics_data = [
     },
     {
         "id": "equation_circle", "title": "The Perfect Form of a Circle", "category": "Coordinate Geometry",
-        "explanation": """<p>The equation of a circle describes its shape in the Cartesian plane. Key forms include:</p>
+        "explanation": r"""<p>The equation of a circle describes its shape in the Cartesian plane. Key forms include:</p>
             <ul class="explanation-list">
                 <li>The standard form is $(x-h)^2 + (y-k)^2 = r^2$, where the center is $(h,k)$ and the radius is $r$.</li>
                 <li>The general form is $x^2 + y^2 + 2gx + 2fy + c = 0$.</li>
@@ -84,7 +84,7 @@ topics_data = [
     # Category: Graphs & Transformations
     {
         "id": "translating_graphs", "title": "Shifting Shapes: Translating Graphs", "category": "Graphs & Transformations",
-        "explanation": """<p>Translating a graph means moving it without changing its shape or orientation. For a function $y=f(x)$:</p>
+        "explanation": r"""<p>Translating a graph means moving it without changing its shape or orientation. For a function $y=f(x)$:</p>
             <ul class="explanation-list">
                 <li>The transformation $y = f(x) + a$ translates the graph vertically by $a$ units upwards.</li>
                 <li>The transformation $y = f(x) - a$ translates the graph vertically by $a$ units downwards.</li>
@@ -95,7 +95,7 @@ topics_data = [
     # Category: Exponentials & Logarithms
     {
         "id": "exponential_functions", "title": "The Power of Exponential Functions", "category": "Exponentials & Logarithms",
-        "explanation": """<p>Exponential functions are those where the variable appears in the exponent, for example, a function of the form $f(x) = a^x$.</p>
+        "explanation": r"""<p>Exponential functions are those where the variable appears in the exponent, for example, a function of the form $f(x) = a^x$.</p>
             <ul class="explanation-list">
                 <li>These functions are characterized by rapid growth (if $a > 1$) or decay (if $0 < a < 1$).</li>
                 <li>A fundamental exponential function in calculus is the natural exponential function, written as $f(x) = e^x$, where $e \approx 2.71828$.</li>
@@ -103,7 +103,7 @@ topics_data = [
     },
     {
         "id": "laws_logarithms", "title": "Unlocking Logarithmic Laws", "category": "Exponentials & Logarithms",
-        "explanation": """<p>Logarithms are the inverse operation of exponentiation. Key laws for manipulating logarithmic expressions include:</p>
+        "explanation": r"""<p>Logarithms are the inverse operation of exponentiation. Key laws for manipulating logarithmic expressions include:</p>
             <ul class="explanation-list">
                 <li>The Product Rule states $\log_b(MN) = \log_b M + \log_b N$</li>
                 <li>The Quotient Rule states $\log_b(M/N) = \log_b M - \log_b N$</li>
@@ -114,7 +114,7 @@ topics_data = [
     # Category: Binomial Expansion
     {
         "id": "binomial_expansion", "title": "Expanding Binomials", "category": "Binomial Expansion",
-        "explanation": """<p>The binomial expansion provides a formula to expand expressions of the form $(a+b)^n$ for a positive integer $n$.</p>
+        "explanation": r"""<p>The binomial expansion provides a formula to expand expressions of the form $(a+b)^n$ for a positive integer $n$.</p>
             <p>The formula is given by $(a+b)^n = \sum_{k=0}^{n} \binom{n}{k} a^{n-k} b^k$.</p>
             <ul class="explanation-list">
                 <li>In this formula, the binomial coefficients are $\binom{n}{k} = \frac{n!}{k!(n-k)!}$, which can also be found using Pascal's Triangle.</li>
@@ -123,7 +123,7 @@ topics_data = [
     # Category: Sequences & Series
     {
         "id": "arithmetic_sequences", "title": "The Order of Arithmetic Sequences", "category": "Sequences & Series",
-        "explanation": """<p>An arithmetic sequence is one where the difference between consecutive terms is constant. This constant difference is called the common difference, denoted by $d$.</p>
+        "explanation": r"""<p>An arithmetic sequence is one where the difference between consecutive terms is constant. This constant difference is called the common difference, denoted by $d$.</p>
             <ul class="explanation-list">
                 <li>The $n$-th term, $u_n$, can be found using the formula $u_n = a + (n-1)d$, where $a$ is the first term.</li>
                 <li>The sum of the first $n$ terms of an arithmetic series is given by $S_n = \frac{n}{2}(2a + (n-1)d)$.</li>
@@ -131,7 +131,7 @@ topics_data = [
     },
     {
         "id": "sum_to_infinity_geometric", "title": "Infinite Sums: Geometric Series", "category": "Sequences & Series",
-        "explanation": """<p>A geometric series has a sum to infinity if its common ratio $r$ satisfies the condition $|r| < 1$.</p>
+        "explanation": r"""<p>A geometric series has a sum to infinity if its common ratio $r$ satisfies the condition $|r| < 1$.</p>
             <ul class="explanation-list">
                 <li>The sum to infinity is calculated using the formula $S_\infty = \frac{a}{1-r}$, where $a$ is the first term.</li>
             </ul>"""
@@ -139,7 +139,7 @@ topics_data = [
     # Category: Trigonometry
     {
         "id": "cosine_rule", "title": "The Law of Cosines (Cosine Rule)", "category": "Trigonometry",
-        "explanation": """<p>The Cosine Rule relates the lengths of the sides of any triangle to the cosine of one of its angles. For any triangle ABC, the rules are:</p>
+        "explanation": r"""<p>The Cosine Rule relates the lengths of the sides of any triangle to the cosine of one of its angles. For any triangle ABC, the rules are:</p>
             <ul class="explanation-list">
                 <li>$a^2 = b^2 + c^2 - 2bc \cos A$</li>
                 <li>$b^2 = a^2 + c^2 - 2ac \cos B$</li>
@@ -149,7 +149,7 @@ topics_data = [
     },
     {
         "id": "radian_measure", "title": "Measuring Angles in Radians", "category": "Trigonometry",
-        "explanation": """<p>Radian measure is an alternative unit for measuring angles, particularly useful in calculus and higher mathematics.</p>
+        "explanation": r"""<p>Radian measure is an alternative unit for measuring angles, particularly useful in calculus and higher mathematics.</p>
             <ul class="explanation-list">
                 <li>The relationship with degrees is $2\pi$ radians $= 360^\circ$, which simplifies to $\pi$ radians $= 180^\circ$.</li>
                 <li>The arc length of a circle segment is found by $s = r\theta$ (where $\theta$ is the angle in radians).</li>
@@ -159,7 +159,7 @@ topics_data = [
     # Category: Differentiation
     {
         "id": "differentiating_xn", "title": "The Power Rule of Differentiation", "category": "Differentiation",
-        "explanation": """<p>The Power Rule is a fundamental rule for finding derivatives of functions of the form $f(x) = x^n$.</p>
+        "explanation": r"""<p>The Power Rule is a fundamental rule for finding derivatives of functions of the form $f(x) = x^n$.</p>
             <ul class="explanation-list">
                 <li>The rule states that if $f(x) = x^n$, then its derivative is $f'(x) = nx^{n-1}$.</li>
                 <li>This rule applies for any real number $n$.</li>
@@ -167,7 +167,7 @@ topics_data = [
     },
     {
         "id": "stationary_points", "title": "Finding Stationary Points", "category": "Differentiation",
-        "explanation": """<p>Stationary points on a curve are points where the gradient is zero, meaning $f'(x)=0$.</p>
+        "explanation": r"""<p>Stationary points on a curve are points where the gradient is zero, meaning $f'(x)=0$.</p>
             <ul class="explanation-list">
                 <li>These points can be classified as local maximums, local minimums, or points of inflection.</li>
                 <li>Classification is typically done using the first derivative test (checking the sign change of $f'(x)$ around the point) or the second derivative test (checking the sign of $f''(x)$ at the point).</li>
@@ -176,7 +176,7 @@ topics_data = [
     # Category: Integration
     {
         "id": "definite_integrals", "title": "The Essence of Definite Integrals", "category": "Integration",
-        "explanation": """<p>A definite integral calculates the net area between a curve $f(x)$ and the x-axis over a specific interval, from $x=a$ to $x=b$.</p>
+        "explanation": r"""<p>A definite integral calculates the net area between a curve $f(x)$ and the x-axis over a specific interval, from $x=a$ to $x=b$.</p>
             <ul class="explanation-list">
                 <li>It is denoted as $\int_a^b f(x) dx$.</li>
                 <li>The value is found by calculating $F(b) - F(a)$, where $F(x)$ is the antiderivative (or indefinite integral) of $f(x)$.</li>
@@ -184,7 +184,7 @@ topics_data = [
     },
     {
         "id": "area_under_curves", "title": "Calculating Area Under Curves", "category": "Integration",
-        "explanation": """<p>Definite integrals are a primary tool for finding the exact area bounded by a curve, the x-axis, and two vertical lines (the limits of integration).</p>
+        "explanation": r"""<p>Definite integrals are a primary tool for finding the exact area bounded by a curve, the x-axis, and two vertical lines (the limits of integration).</p>
             <ul class="explanation-list">
                 <li>If the function $f(x)$ is non-negative ($f(x) \ge 0$) on the interval $[a,b]$, the area is directly given by the integral: Area $= \int_a^b f(x) dx$.</li>
                 <li>If $f(x)$ is negative ($f(x) < 0$) on $[a,b]$, the integral will yield a negative value. The actual area is the absolute value of this integral: Area $= |\int_a^b f(x) dx|$.</li>
