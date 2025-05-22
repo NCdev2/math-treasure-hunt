@@ -213,20 +213,190 @@ def get_topic_title_for_navigator(title):
 # --- UI Rendering ---
 st.set_page_config(page_title="Math Explorer's Compendium", layout="wide")
 
+# Inject custom CSS for the UI Makeover - BRIGHT THEME
+st.markdown(r"""
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Inter:wght@400;600&family=IM+Fell+English+SC&display=swap');
+
+    :root {
+        /* Bright Theme Palette */
+        --primary-bg: #FAF0E6; /* Linen - Main background */
+        --secondary-bg: #FDF5E6; /* Old Lace - Slightly off-white for elements */
+        --content-area-bg: #FFF8DC; /* Cornsilk - Parchment-like for content */
+        --text-color-dark: #5D4037; /* Dark Brown - Primary text */
+        --text-color-medium: #8B4513; /* SaddleBrown - Secondary text, headers */
+        --accent-color: #D2691E; /* Chocolate - Accent, buttons, links */
+        --accent-hover: #A0522D; /* Sienna - Accent hover */
+        --border-color: #D2B48C; /* Tan - Borders */
+        --button-text: #FFFFFF; /* White text on accent buttons */
+        --button-hover-brightness: 1.1;
+    }
+
+    /* Apply bright theme to the main body */
+    body {
+        background-color: var(--primary-bg);
+        color: var(--text-color-dark);
+    }
+    /* Ensure Streamlit's main content area also gets the bright background */
+    .main .block-container {
+        background-color: var(--primary-bg);
+        color: var(--text-color-dark);
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    /* Header styles - Streamlit's default header is harder to override directly without affecting sidebar too much.
+       We will style our custom markdown headers instead. */
+
+    /* Main title and subtitle */
+    .title-main {
+        font-family: 'MedievalSharp', cursive;
+        color: var(--text-color-medium); /* Darker text for title on light bg */
+        text-align: center;
+        font-size: 3em; /* Adjusted size */
+        margin-bottom: 0.2em;
+    }
+    .subtitle-main {
+        font-family: 'IM Fell English SC', serif;
+        color: var(--text-color-medium); /* Darker text for subtitle on light bg */
+        text-align: center;
+        font-size: 1.5em; /* Adjusted size */
+        margin-bottom: 2rem;
+    }
+
+    /* Progress text styling */
+    .progress-text-streamlit {
+        text-align: center;
+        font-family: 'IM Fell English SC', serif;
+        color: var(--text-color-medium);
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Topic title styling */
+    .topic-title-streamlit {
+        text-align: center;
+        font-family: 'MedievalSharp', cursive;
+        color: var(--accent-color); /* Accent color for topic titles */
+        font-size: 2.5em; /* Adjusted size */
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Explanation container - Parchment style */
+    .explanation-container-streamlit {
+        background-color: var(--content-area-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 15px;
+        padding: 25px;
+        color: var(--text-color-dark); /* Ensure text inside is dark */
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Softer shadow for light theme */
+        margin-bottom: 1.5rem;
+    }
+    .explanation-container-streamlit p {
+        margin-bottom: 0.8rem;
+        line-height: 1.6;
+    }
+    .explanation-container-streamlit ul.explanation-list {
+        list-style-type: disc;
+        margin-left: 25px;
+        padding-left: 0;
+    }
+    .explanation-container-streamlit ul.explanation-list li {
+        margin-bottom: 0.6rem;
+    }
+    .explanation-container-streamlit strong {
+        color: var(--accent-color);
+    }
+
+    /* Streamlit button styling */
+    div.stButton > button {
+        background-color: var(--accent-color);
+        color: var(--button-text);
+        border: 2px solid var(--accent-color);
+        border-radius: 8px; /* Simplified radius */
+        padding: 10px 20px;
+        font-family: 'IM Fell English SC', serif;
+        font-size: 1.1em;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+    div.stButton > button:hover {
+        background-color: var(--accent-hover);
+        border-color: var(--accent-hover);
+        color: var(--button-text);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    div.stButton > button:disabled {
+        background-color: #C0C0C0; /* Silver for disabled */
+        border-color: #A9A9A9;
+        color: #696969;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    /* Streamlit selectbox styling */
+    div[data-baseweb="select"] > div {
+        background-color: var(--secondary-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 8px; /* Simplified radius */
+        font-family: 'IM Fell English SC', serif;
+        color: var(--text-color-dark);
+    }
+    div[data-baseweb="select"] svg { /* Dropdown arrow */
+        color: var(--accent-color);
+    }
+    
+    /* Horizontal rule style */
+    hr {
+        border-top: 2px solid var(--border-color);
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Completion message styling */
+    .completion-container-streamlit {
+        background-color: var(--content-area-bg);
+        border: 3px solid var(--accent-color);
+        padding: 2.5rem;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(210, 105, 30, 0.3); /* Shadow based on accent */
+    }
+    .completion-title-streamlit {
+        font-family: 'MedievalSharp', cursive;
+        color: var(--accent-color);
+        font-size: 3rem;
+        text-shadow: 1px 1px 0px #FFF, 2px 2px 0px var(--border-color);
+    }
+    .completion-text-streamlit {
+        color: var(--text-color-medium);
+        font-size: 1.2rem;
+        font-family: 'IM Fell English SC', serif;
+    }
+
+</style>
+""", unsafe_allow_html=True)
+
 # Header
-st.markdown("<h1 style='text-align: center; color: #8B4513; font-family: MedievalSharp, cursive;'>Math Explorer's Compendium</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #A0522D; font-family: IM Fell English SC, serif; font-size: 1.2em;'>Unearth the Scrolls of Mathematical Wisdom!</p>", unsafe_allow_html=True)
+# st.markdown("<h1 class='title-main'>Math Explorer's Compendium</h1>", unsafe_allow_html=True)
+# st.markdown("<p class='subtitle-main'>Unearth the Scrolls of Mathematical Wisdom!</p>", unsafe_allow_html=True)
+# Using st.title and st.caption for more Streamlit-native feel, then styling them if needed
+st.markdown("<div style='text-align: center;'><h1 class='title-main'>Math Explorer's Compendium</h1><p class='subtitle-main'>Unearth the Scrolls of Mathematical Wisdom!</p></div>", unsafe_allow_html=True)
 st.markdown("---")
+
 
 # --- Main Application Logic ---
 if st.session_state.quest_complete:
     st.balloons()
-    st.markdown("<div style='background-color: #FFF8DC; border: 3px solid #FFD700; padding: 2.5rem; border-radius: 10px; text-align: center; box-shadow: 0 0 20px rgba(255,215,0,0.5);'>", unsafe_allow_html=True)
-    st.markdown("<h2 style='font-family: MedievalSharp, cursive; color: #DAA520; font-size: 3rem; text-shadow: 2px 2px 0px #FFF, 3px 3px 0px #B8860B;'>Treasure Unlocked!</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #8B4513; font-size: 1.2rem; font-family: IM Fell English SC, serif;'>Thou hast proven a keen explorer of knowledge! All scrolls are revealed.</p>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #8B4513; font-size: 1.2rem; font-family: IM Fell English SC, serif;'>May your wisdom shine brightly!</p>", unsafe_allow_html=True)
+    st.markdown("<div class='completion-container-streamlit'>", unsafe_allow_html=True)
+    st.markdown("<h2 class='completion-title-streamlit'>Treasure Unlocked!</h2>", unsafe_allow_html=True)
+    st.markdown("<p class='completion-text-streamlit'>Thou hast proven a keen explorer of knowledge! All scrolls are revealed.</p>", unsafe_allow_html=True)
+    st.markdown("<p class='completion-text-streamlit'>May your wisdom shine brightly!</p>", unsafe_allow_html=True)
     
-    if st.button("Embark on a New Quest", key="restart_complete"):
+    if st.button("Embark on a New Quest", key="restart_complete", use_container_width=True):
         st.session_state.current_topic_index = 0
         st.session_state.max_unlocked_index = 0
         st.session_state.topics_status = [{'unlocked': (i == 0)} for i in range(len(topics_data))]
@@ -237,72 +407,15 @@ if st.session_state.quest_complete:
 else:
     # Progress Area
     progress_text = f"Scroll {st.session_state.current_topic_index + 1} of {len(topics_data)} Unfurled | Path Explored: {min(st.session_state.max_unlocked_index + 1, len(topics_data))} scrolls"
-    st.markdown(f"<p style='text-align: center; font-family: IM Fell English SC, serif; color: #603813; font-size: 1.1rem;'>{progress_text}</p>", unsafe_allow_html=True)
-
-    unlocked_topic_titles = [
-        get_topic_title_for_navigator(topics_data[i]['title'])
-        for i, status in enumerate(st.session_state.topics_status) if status['unlocked']
-    ]
-    
-    # Create a mapping from the display title to the original index
-    title_to_index_map = {
-        get_topic_title_for_navigator(topics_data[i]['title']): i
-        for i, status in enumerate(st.session_state.topics_status) if status['unlocked']
-    }
-
-    current_selection_title = get_topic_title_for_navigator(topics_data[st.session_state.current_topic_index]['title'])
-
-    selected_topic_title = st.selectbox(
-        "Navigate Scrolls:",
-        options=unlocked_topic_titles,
-        index=unlocked_topic_titles.index(current_selection_title) if current_selection_title in unlocked_topic_titles else 0,
-        key="topic_navigator"
-    )
-    
-    if selected_topic_title:
-        selected_index = title_to_index_map[selected_topic_title]
-        if selected_index != st.session_state.current_topic_index:
-            st.session_state.current_topic_index = selected_index
-            # No rerun needed here, selectbox change will trigger it if value changes
+    st.markdown(f"<p class='progress-text-streamlit'>{progress_text}</p>", unsafe_allow_html=True)
 
     st.markdown("---")
 
     # Explorer Area
     current_topic = topics_data[st.session_state.current_topic_index]
-    st.markdown(f"<h2 style='text-align: center; color: #8B4513; font-family: MedievalSharp, cursive; font-size: 2.5em;'>{current_topic['title']}</h2>", unsafe_allow_html=True)
+    st.markdown(f"<h2 class='topic-title-streamlit'>{current_topic['title']}</h2>", unsafe_allow_html=True)
     
-    # Custom CSS for the explanation text to match the original style more closely
-    st.markdown("""
-    <style>
-        .explanation-container {
-            background-color: #FDF5E6; /* Creamy background */
-            border: 2px solid #D2B48C; /* Tan border */
-            border-radius: 10px;
-            padding: 20px;
-            font-family: 'Inter', sans-serif;
-            color: #5D4037; /* Dark brown text */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .explanation-container p {
-            margin-bottom: 0.8rem;
-            line-height: 1.6;
-        }
-        .explanation-container ul.explanation-list {
-            list-style-type: disc; /* Or 'circle', 'square' */
-            margin-left: 25px; /* Indent list */
-            padding-left: 0;
-        }
-        .explanation-container ul.explanation-list li {
-            margin-bottom: 0.6rem;
-            color: #4E342E; /* Slightly darker list items */
-        }
-        .explanation-container strong {
-            color: #A0522D; /* Sienna for emphasis */
-        }
-    </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown(f"<div class='explanation-container'>{current_topic['explanation']}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='explanation-container-streamlit'>{current_topic['explanation']}</div>", unsafe_allow_html=True)
     
     st.markdown("---")
 
@@ -338,61 +451,3 @@ else:
         st.session_state.topics_status = [{'unlocked': (i == 0)} for i in range(len(topics_data))]
         st.session_state.quest_complete = False
         st.rerun()
-
-# Add some styling for buttons to make them more thematic
-st.markdown("""
-<style>
-    div.stButton > button {
-        background-color: #DEB887; /* BurlyWood */
-        color: #654321; /* Dark Brown */
-        border: 2px solid #8B4513; /* SaddleBrown */
-        border-radius: 20px 5px 20px 5px;
-        padding: 10px 20px;
-        font-family: 'IM Fell English SC', serif;
-        font-size: 1.1em;
-        font-weight: bold;
-        letter-spacing: 1px;
-        transition: all 0.3s ease;
-        box-shadow: 0 3px 5px rgba(0,0,0,0.2), inset 0 -2px 0px rgba(0,0,0,0.2);
-        text-shadow: 1px 1px 0px rgba(255,255,255,0.3);
-    }
-    div.stButton > button:hover {
-        background-color: #CDAD00; /* Brighter Gold */
-        color: #FFFFFF;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 7px rgba(0,0,0,0.3), inset 0 -2px 0px rgba(0,0,0,0.1);
-    }
-    div.stButton > button:disabled {
-        background-color: #A9A9A9; /* DarkGray - disabled */
-        border-color: #696969;
-        color: #E0E0E0;
-        cursor: not-allowed;
-        transform: translateY(0);
-        box-shadow: inset 0 2px 2px rgba(0,0,0,0.1);
-        text-shadow: none;
-    }
-    /* Style for selectbox */
-    div[data-baseweb="select"] > div {
-        background-color: #FDF5E6;
-        border: 2px solid #B8860B;
-        border-radius: 3px;
-        font-family: 'IM Fell English SC', serif;
-        color: #5D4037;
-    }
-    /* Style for selectbox dropdown arrow */
-    div[data-baseweb="select"] svg {
-        color: #8B4513;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# Add Google Fonts
-st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Inter:wght@400;600&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
-""", unsafe_allow_html=True)
-
-# Log current state for debugging (optional)
-# st.sidebar.write("Current Index:", st.session_state.current_topic_index)
-# st.sidebar.write("Max Unlocked Index:", st.session_state.max_unlocked_index)
-# st.sidebar.write("Quest Complete:", st.session_state.quest_complete)
-# st.sidebar.json(st.session_state.topics_status)
