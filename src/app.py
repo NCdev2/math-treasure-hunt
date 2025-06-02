@@ -1,4 +1,5 @@
 import streamlit as st
+import re
 
 # --- Topics Data ---
 topics_data = [
@@ -210,6 +211,42 @@ def get_topic_title_for_navigator(title):
             return title[len(prefix):]
     return title
 
+def parse_explanation(explanation_html):
+    """
+    Parses an HTML string containing LaTeX (delimited by $) and text.
+    Returns a list of dictionaries, e.g., [{'type': 'text', 'content': '...'}, {'type': 'latex', 'content': '...'}]
+    """
+    parts = []
+    # Regex to find $...$ or text segments
+    # It captures either a LaTeX block $...$ or any characters not starting a LaTeX block
+    # The lookahead (?=\$|$) is to correctly segment text before a LaTeX block or end of string
+    segments = re.split(r'(\$.*?\$)', explanation_html)
+    
+    for segment in segments:
+        if not segment:  # Skip empty strings that can result from split
+            continue
+        if segment.startswith('$') and segment.endswith('$'):
+            # LaTeX part: remove $ delimiters
+            latex_content = segment[1:-1].strip()
+            # Further split if there's descriptive text within the same <li> or <p>
+            # e.g. $a^m \times a^n = a^{m+n}$ (Product of powers)
+            match_latex_then_text = re.match(r'^(.*?)(\s*\(.*?\)\s*|\s*--.*--\s*)$', latex_content)
+            if match_latex_then_text:
+                core_latex = match_latex_then_text.group(1).strip()
+                description = match_latex_then_text.group(2).strip()
+                if core_latex:
+                    parts.append({'type': 'latex', 'content': rf'{core_latex}'})
+                if description:
+                    parts.append({'type': 'text', 'content': f'{description}'})
+            else:
+                if latex_content: # Ensure non-empty latex content
+                    parts.append({'type': 'latex', 'content': rf'{latex_content}'})
+        else:
+            # Text part
+            if segment: # Ensure non-empty text content
+                parts.append({'type': 'text', 'content': segment})
+    return parts
+
 # --- UI Rendering ---
 st.set_page_config(page_title="Math Explorer's Compendium", layout="wide")
 
@@ -415,8 +452,20 @@ else:
     current_topic = topics_data[st.session_state.current_topic_index]
     st.markdown(f"<h2 class='topic-title-streamlit'>{current_topic['title']}</h2>", unsafe_allow_html=True)
     
-    st.write(f"<div class='explanation-container-streamlit'>{current_topic['explanation']}</div>", unsafe_allow_html=True) # Changed from st.markdown
+    # st.write(f"<div class='explanation-container-streamlit'>{current_topic['explanation']}</div>", unsafe_allow_html=True) # Changed from st.markdown
     
+    # New rendering logic for explanations
+    st.markdown("<div class='explanation-container-streamlit'>", unsafe_allow_html=True)
+    explanation_parts = parse_explanation(current_topic['explanation'])
+    for part in explanation_parts:
+        if part['type'] == 'latex':
+            st.latex(part['content'])
+        elif part['type'] == 'text':
+            # We still use markdown here to render HTML tags like <p>, <ul>, <li>
+            # and the descriptive text.
+            st.markdown(part['content'], unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
     st.markdown("---")
 
     # Navigation Buttons
