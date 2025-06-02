@@ -214,37 +214,69 @@ def get_topic_title_for_navigator(title):
 def parse_explanation(explanation_html):
     """
     Parses an HTML string containing LaTeX (delimited by $) and text.
-    Returns a list of dictionaries, e.g., [{'type': 'text', 'content': '...'}, {'type': 'latex', 'content': '...'}]
+    Returns a list of dictionaries, e.g., 
+    [{'type': 'text', 'content': '...'}, 
+     {'type': 'latex', 'content': '...'},
+     {'type': 'latex_with_description', 'latex': '...', 'description': '...'}]
     """
     parts = []
-    # Regex to find $...$ or text segments
-    # It captures either a LaTeX block $...$ or any characters not starting a LaTeX block
-    # The lookahead (?=\$|$) is to correctly segment text before a LaTeX block or end of string
+    # Split by $...$ delimiters, keeping the delimiters
     segments = re.split(r'(\$.*?\$)', explanation_html)
     
-    for segment in segments:
+    idx = 0
+    while idx < len(segments):
+        segment = segments[idx]
         if not segment:  # Skip empty strings that can result from split
+            idx += 1
             continue
+
         if segment.startswith('$') and segment.endswith('$'):
-            # LaTeX part: remove $ delimiters
-            latex_content = segment[1:-1].strip()
-            # Further split if there's descriptive text within the same <li> or <p>
-            # e.g. $a^m \times a^n = a^{m+n}$ (Product of powers)
-            match_latex_then_text = re.match(r'^(.*?)(\s*\(.*?\)\s*|\s*--.*--\s*)$', latex_content)
-            if match_latex_then_text:
-                core_latex = match_latex_then_text.group(1).strip()
-                description = match_latex_then_text.group(2).strip()
-                if core_latex:
-                    parts.append({'type': 'latex', 'content': rf'{core_latex}'})
-                if description:
-                    parts.append({'type': 'text', 'content': f'{description}'})
-            else:
-                if latex_content: # Ensure non-empty latex content
-                    parts.append({'type': 'latex', 'content': rf'{latex_content}'})
-        else:
-            # Text part
+            latex_content = segment[1:-1].strip() # Content within $...$
+            
+            core_latex = latex_content
+            description_embedded_in_latex = None
+
+            # Check for descriptions embedded within the LaTeX itself, e.g., $a^0=1 \\text{ (for } a \\neq 0)$
+            # This regex captures the main LaTeX and the parenthetical part
+            match_embedded_desc = re.match(r'^(.*?)(\\s*\\(.*?\\)\\s*|\\s*--.*?--\\s*)$', latex_content)
+            if match_embedded_desc:
+                core_latex = match_embedded_desc.group(1).strip()
+                description_embedded_in_latex = match_embedded_desc.group(2).strip()
+
+            description_following_latex = None
+            # Check if the *next* segment in the HTML is a description for this LaTeX
+            # e.g., ... $equation$ (This is the description) ...
+            if idx + 1 < len(segments):
+                next_segment_content = segments[idx+1] 
+                # Regex to find (description) or --description-- at the beginning of the next text segment
+                match_following_desc = re.match(r'^(\\s*\\(.*?\\)\\s*|\\s*--.*?--\\s*)(.*)', next_segment_content, re.DOTALL)
+                if match_following_desc:
+                    description_following_latex = match_following_desc.group(1).strip()
+                    # Update the next segment to remove the consumed description part
+                    segments[idx+1] = match_following_desc.group(3).strip() if len(match_following_desc.groups()) > 2 and match_following_desc.group(3) else ""
+
+
+            final_latex_to_display = core_latex
+            if description_embedded_in_latex:
+                # Append the embedded description (e.g., "for a != 0") to the LaTeX
+                # Use \\quad for spacing in LaTeX
+                final_latex_to_display = rf"{core_latex} \\quad {description_embedded_in_latex}"
+
+            if description_following_latex:
+                # This is the primary description for column layout (e.g., "Product of powers")
+                parts.append({
+                    'type': 'latex_with_description',
+                    'latex': rf'{final_latex_to_display}',
+                    'description': description_following_latex 
+                })
+            elif final_latex_to_display: # Only add if there's actual LaTeX
+                parts.append({'type': 'latex', 'content': rf'{final_latex_to_display}'})
+        
+        else: # Text part (not LaTeX)
             if segment: # Ensure non-empty text content
                 parts.append({'type': 'text', 'content': segment})
+        idx += 1
+            
     return parts
 
 # --- UI Rendering ---
@@ -458,11 +490,26 @@ else:
     st.markdown("<div class='explanation-container-streamlit'>", unsafe_allow_html=True)
     explanation_parts = parse_explanation(current_topic['explanation'])
     for part in explanation_parts:
-        if part['type'] == 'latex':
+        if part['type'] == 'latex_with_description':
+            # Use columns for side-by-side display of description and LaTeX
+            col1, col2 = st.columns([1, 2]) # Adjust ratio as needed, e.g., [2,3]
+            
+            description_text = part['description'].strip()
+            # Remove surrounding parentheses or dashes for display
+            if description_text.startswith('(') and description_text.endswith(')'):
+                description_text = description_text[1:-1].strip()
+            elif description_text.startswith('--') and description_text.endswith('--'):
+                description_text = description_text[2:-2].strip()
+
+            with col1:
+                st.markdown(f"**{description_text}**")
+            with col2:
+                st.latex(part['latex'])
+        
+        elif part['type'] == 'latex':
             st.latex(part['content'])
         elif part['type'] == 'text':
-            # We still use markdown here to render HTML tags like <p>, <ul>, <li>
-            # and the descriptive text.
+            # Render HTML tags like <p>, <ul>, <li> and other text
             st.markdown(part['content'], unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
