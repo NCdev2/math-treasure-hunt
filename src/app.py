@@ -415,7 +415,7 @@ else:
     current_topic = topics_data[st.session_state.current_topic_index]
     st.markdown(f"<h2 class='topic-title-streamlit'>{current_topic['title']}</h2>", unsafe_allow_html=True)
     
-    st.markdown(f"<div class='explanation-container-streamlit'>{current_topic['explanation']}</div>", unsafe_allow_html=True)
+    st.write(f"<div class='explanation-container-streamlit'>{current_topic['explanation']}</div>", unsafe_allow_html=True) # Changed from st.markdown
     
     st.markdown("---")
 
